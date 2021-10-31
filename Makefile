@@ -1,11 +1,16 @@
 CFLAGS=-std=c11 -g -static
+SRCS=$(wildcard *.c)
+OBJS=$(SRCS:.c=.o)
 
-takcc: takcc.c
+takcc: $(OBJS)
+	$(CC) -o takcc $(OBJS) $(LDFLAGS)
+
+$(OBJS): takcc.h
 
 test: takcc
-		./test.sh
+	./test.sh
 
-clean: 
-		rm -f takcc *.o *~ tmp*
+clean:
+	rm -f takcc *.o *~ tmp*
 
 .PHONY: test clean
