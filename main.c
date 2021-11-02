@@ -1,5 +1,4 @@
 #include "takcc.h"
-#include <stdio.h>
 
 Token *token;
 char *user_input;
