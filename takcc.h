@@ -50,6 +50,19 @@ struct Token {
     int len;
 };
 
+typedef struct LVar LVar;
+
+//ローカル変数の型
+struct LVar{
+    LVar *next; //次の変数がNULL
+    char *name;
+    int len;
+    int offset;
+};
+
+//ローカル変数
+extern LVar *locals;
+
 extern Token *token;
 extern char *user_input;
 extern Node *code[100];
@@ -75,5 +88,6 @@ void gen(Node *node);
 Token *new_token(TokenKind kind, Token *cur, char *str);
 Token *tokenize(char *p);
 Token *consume_ident();
+LVar *find_lvar(Token *tok);
 
 #endif

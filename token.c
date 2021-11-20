@@ -1,6 +1,5 @@
 #include "takcc.h"
 
-
 Token *new_token(TokenKind kind, Token *cur, char *str){
 
     Token *tok = calloc(1, sizeof(Token));
@@ -28,11 +27,24 @@ Token *tokenize(char *p){
             continue;
         }
 
-        if ('a' <= *p && *p <= 'z'){
-            cur = new_token(TK_IDENT, cur, p++);
-            cur->len = 1;
+        int ident_len = 0;
+        char *tmp_p;
+        while ('a' <= *p && *p <= 'z'){
+            if (ident_len == 0) tmp_p = p;
+            p++;
+            ident_len++;
+        }
+        if (ident_len > 0){
+            cur = new_token(TK_IDENT, cur, tmp_p);
+            cur->len = ident_len;
             continue;
         }
+
+        // if ('a' <= *p && *p <= 'z'){
+        //     cur = new_token(TK_IDENT, cur, p++);
+        //     cur->len = 1;
+        //     continue;
+        // }
 
         if (isdigit(*p)){
             cur = new_token(TK_NUM, cur, p);
@@ -45,4 +57,14 @@ Token *tokenize(char *p){
 
     new_token(TK_EOF, cur, p);
     return head.next;
+}
+
+
+LVar *find_lvar(Token *tok){
+    for (LVar *var = locals; var; var=var->next){
+        if (var->len == tok->len && !memcmp(tok->str, var->name, var->len)){
+            return var;
+        }
+    }
+    return NULL;
 }

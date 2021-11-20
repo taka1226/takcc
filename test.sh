@@ -17,11 +17,7 @@ assert(){
     fi
 }
 
-assert 4 '1+6-3'
-assert 42 '24+20-2'
-assert 41 '12 + 34 - 5'
-assert 47 '5+6*7'
-assert 15 '5*(9-6)'
-assert 4 '(3+5)/2'
+assert 4 'aaa=4;'
+assert 16 'aaa=4;bb=4;cc=aaa * bb;'
 
 echo OK
