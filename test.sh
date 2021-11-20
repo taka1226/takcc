@@ -19,5 +19,6 @@ assert(){
 
 assert 4 'aaa=4;'
 assert 12 'aaa=3;bb=4;return cc=aaa * bb;'
+assert 14 'return 14;return 12 - 4;'
 
 echo OK
