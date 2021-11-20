@@ -13,6 +13,14 @@ bool consume(char *op){
     return true;
 }
 
+bool consume_return(char *op){
+    if (token->kind != TK_RETURN || strlen(op) != token->len || memcmp(token->str, op, token->len)){
+        return false;
+    }
+    token = token->next;
+    return true;
+}
+
 Token *consume_ident(){
     if (token->kind != TK_IDENT)
         error("変数ではありません");
@@ -71,7 +79,15 @@ Node *assign(){
 }
 
 Node *stmt(){
-    Node *node = expr();
+    Node *node;
+
+    if (consume_return("return")){
+        node = calloc(1, sizeof(Node));
+        node->kind = ND_RETURN;
+        node->lhs = expr();
+    }else{
+        node = expr();
+    }
     expect(";");
     return node;
 }

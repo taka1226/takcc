@@ -18,6 +18,6 @@ assert(){
 }
 
 assert 4 'aaa=4;'
-assert 16 'aaa=4;bb=4;cc=aaa * bb;'
+assert 12 'aaa=3;bb=4;return cc=aaa * bb;'
 
 echo OK
