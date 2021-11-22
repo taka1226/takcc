@@ -3,6 +3,9 @@
 Token *token;
 char *user_input;
 LVar *locals;
+int LelseNum;
+int LendNum;
+int LbeginNum;
 
 int main(int argc, char **argv){
     if (argc != 2){

@@ -13,8 +13,41 @@ bool consume(char *op){
     return true;
 }
 
+
 bool consume_return(char *op){
     if (token->kind != TK_RETURN || strlen(op) != token->len || memcmp(token->str, op, token->len)){
+        return false;
+    }
+    token = token->next;
+    return true;
+}
+
+bool consume_if(char *op){
+    if (token->kind != TK_IF || strlen(op) != token->len || memcmp(token->str, op, token->len)){
+        return false;
+    }
+    token = token->next;
+    return true;
+}
+
+bool consume_else(char *op){
+    if (token->kind != TK_ELSE || strlen(op) != token->len || memcmp(token->str, op, token->len)){
+        return false;
+    }
+    token = token->next;
+    return true;
+}
+
+bool consume_while(char *op){
+    if (token->kind != TK_WHILE || strlen(op) != token->len || memcmp(token->str, op, token->len)){
+        return false;
+    }
+    token = token->next;
+    return true;
+}
+
+bool consume_for(char *op){
+    if (token->kind != TK_FOR || strlen(op) != token->len || memcmp(token->str, op, token->len)){
         return false;
     }
     token = token->next;
@@ -85,10 +118,44 @@ Node *stmt(){
         node = calloc(1, sizeof(Node));
         node->kind = ND_RETURN;
         node->lhs = expr();
+        expect(";");
+    }else if (consume_if("if")){
+        node = calloc(1, sizeof(Node));
+        node->kind = ND_IF;
+        expect("(");
+        node->lhs = expr();
+        expect(")");
+        node->rhs = stmt();
+        if (consume_else("else")){
+            node->elh = stmt();
+        }
+    }else if (consume_while("while")){
+        expect("(");
+        node = expr();
+        expect(")");
+        node = new_node(ND_WHILE, node, stmt());
+    }else if (consume_for("for")){
+        node = calloc(1, sizeof(Node));
+        node->kind = ND_FOR;
+        expect("(");
+        if (!consume(";")){
+            node->forh1 = expr();
+            expect(";");
+        }
+        if (!consume(";")){
+            node->forh2 = expr();
+            expect(";");
+        }
+        if (!consume(")")){
+            node->forh3 = expr();
+            expect(")");
+        }
+        node->elh = stmt();
+
     }else{
         node = expr();
+        expect(";");
     }
-    expect(";");
     return node;
 }
 

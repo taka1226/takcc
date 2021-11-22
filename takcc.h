@@ -23,6 +23,8 @@ typedef enum {
     ND_NUM, // 整数
     ND_RETURN, // return
     ND_IF,  // if
+    ND_WHILE, // while
+    ND_FOR, // for
 } NodeKind;
 
 typedef struct Node Node;
@@ -31,6 +33,10 @@ struct Node {
     NodeKind kind;
     Node *lhs;
     Node *rhs;
+    Node *elh;  // else, for のときだけ使う
+    Node *forh1; //for 1
+    Node *forh2; // for 2
+    Node *forh3; //for3
     int val;  //kindがND_NUMの場合のみ使う
     int offset; // kindがND_LVARの場合のみ使う
 };
@@ -41,6 +47,9 @@ typedef enum {
     TK_NUM, // 整数トークン
     TK_RETURN, // return トークン
     TK_IF,  // if トークン
+    TK_ELSE,  // else トークン
+    TK_WHILE, // while トークン
+    TK_FOR, // for トークン
     TK_EOF, // 入力の終わりを表すトークン
 } TokenKind;
 
@@ -70,6 +79,9 @@ extern LVar *locals;
 extern Token *token;
 extern char *user_input;
 extern Node *code[100];
+extern int LelseNum;
+extern int LendNum;
+extern int LbeginNum;
 
 Node *assign();
 Node *stmt();
