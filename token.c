@@ -21,6 +21,19 @@ Token *tokenize(char *p){
             continue;
         }
 
+        if (strncmp(p, "==", 2) == 0 || strncmp(p, "!=", 2) == 0 || strncmp(p, "<=", 2) == 0 || strncmp(p, ">=", 2) == 0){
+            cur = new_token(TK_RESERVED, cur, p);
+            p += 2;
+            cur->len = 2;
+            continue;
+        }
+
+        if (*p == '<' || *p == '>'){
+            cur = new_token(TK_RESERVED, cur, p++);
+            cur->len = 1;
+            continue;
+        }
+
         if (*p == '+' || *p == '-' || *p == '*' || *p == '/' || *p == '(' || *p == ')' || *p == '=' || *p == ';'){
             cur = new_token(TK_RESERVED, cur, p++);
             cur->len = 1;

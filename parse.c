@@ -188,13 +188,13 @@ Node *relational(){
     Node *node = add();
     for (;;){
         if (consume("<")){
-            new_node(ND_LT, node, add());
+            node = new_node(ND_LT, node, add());
         }else if (consume("<=")){
-            new_node(ND_LE, node, add());
+            node = new_node(ND_LE, node, add());
         }else if (consume(">")){
-            new_node(ND_LT, add(), node);
+            node = new_node(ND_LT, add(), node);
         }else if (consume(">=")){
-            new_node(ND_LE, add(), node);
+            node = new_node(ND_LE, add(), node);
         }else{
             return node;
         }

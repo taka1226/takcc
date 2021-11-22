@@ -49,6 +49,45 @@ void gen(Node *node){
             printf("  mov [rax], rdi\n");
             printf("  push rdi\n");
             return;
+        case ND_EQ:
+            gen(node->lhs);
+            gen(node->rhs);
+            printf("  pop rdi\n");
+            printf("  pop rax\n");
+            printf("  cmp rdi, rax\n");
+            printf("  sete al\n");
+            printf("  push rax\n");
+            return;
+
+        case ND_NE:
+            gen(node->lhs);
+            gen(node->rhs);
+            printf("  pop rdi\n");
+            printf("  pop rax\n");
+            printf("  cmp rax, rdi\n");
+            printf("  setne al\n");
+            printf("  push rax\n");
+            return;
+        case ND_LT:
+            gen(node->lhs);
+            gen(node->rhs);
+            printf("  pop rdi\n");
+            printf("  pop rax\n");
+            printf("  cmp rax, rdi\n");
+            printf("  setl al\n");
+            printf("  push rax\n");
+            return;
+
+        case ND_LE:
+            gen(node->lhs);
+            gen(node->rhs);
+            printf("  pop rdi\n");
+            printf("  pop rax\n");
+            printf("  cmp rax, rdi\n");
+            printf("  setle al\n");
+            printf("  push rax\n");
+            return;
+
     }
 
     gen(node->lhs);
