@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+Node **in_block;
+
 // エラーを報告するための関数
 // printf と同じ引数をとる
 void error(char *fmt, ...){
@@ -140,6 +142,13 @@ void gen(Node *node){
             printf(".Lend%d:\n", LendNum);
             LbeginNum++;
             LendNum++;
+            return;
+
+        case ND_BLOCK:
+            in_block = node->block;
+            for (int i=0;i < node->block_len;i++){
+                gen(in_block[i]);
+            }
             return;
 
     }

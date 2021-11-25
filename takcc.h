@@ -24,6 +24,7 @@ typedef enum {
     ND_RETURN, // return
     ND_IF,  // if
     ND_WHILE, // while
+    ND_BLOCK, //{}
     ND_FOR, // for
 } NodeKind;
 
@@ -37,6 +38,8 @@ struct Node {
     Node *forh1; //for 1
     Node *forh2; // for 2
     Node *forh3; //for3
+    Node **block;
+    int block_len; // block の行数
     int val;  //kindがND_NUMの場合のみ使う
     int offset; // kindがND_LVARの場合のみ使う
 };
@@ -50,6 +53,7 @@ typedef enum {
     TK_ELSE,  // else トークン
     TK_WHILE, // while トークン
     TK_FOR, // for トークン
+    TK_BLOCK,  //{}
     TK_EOF, // 入力の終わりを表すトークン
 } TokenKind;
 

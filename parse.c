@@ -152,6 +152,19 @@ Node *stmt(){
         }
         node->elh = stmt();
 
+    }else if (consume("{")){  // nd_block
+        node = calloc(1, sizeof(Node));
+        node->kind = ND_BLOCK;
+        Node **block;
+        block = calloc(100, sizeof(Node*));
+        int i = 0;
+        while (!consume("}")){
+            block[i] = stmt();
+            i++;
+        }
+        node->block = block;
+        node->block_len = i;
+
     }else{
         node = expr();
         expect(";");
